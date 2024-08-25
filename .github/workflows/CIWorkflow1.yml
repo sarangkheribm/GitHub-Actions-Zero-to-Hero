@@ -1,0 +1,29 @@
+name: CI Workflow
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        id: node
+        needs: checkout
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      
+      - name: Install dependencies
+        id: install
+        needs: node
+        run: npm install
+      
+      - name: Run tests
+        id: test
+        needs: install
+        run: npm test
